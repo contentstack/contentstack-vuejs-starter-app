@@ -1,0 +1,68 @@
+{
+  "name": "contentstack-vuejs-starter-app",
+  "version": "1.0.0",
+  "description": "A simple starter app build using VueJS and Contentstack",
+  "author": "Contentstack",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve --port 3000",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "contentstack": "^3.12.2",
+    "core-js": "^3.6.5",
+    "moment": "^2.29.1",
+    "register-service-worker": "^1.7.1",
+    "vue": "^3.0.0",
+    "vue-meta": "^2.4.0",
+    "vue-router": "^4.0.5"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "^4.5.12",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.0.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended",
+      "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "bugs": {
+    "url": "https://github.com/contentstack/contentstack-vuejs-starter-app"
+  },
+  "keywords": [
+    "VueJS",
+    "Contentstack"
+  ],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "prettier": {
+    "singleQuote": true
+  }
+}
