@@ -6,6 +6,8 @@ const Stack = Contentstack.Stack(
   process.env.VUE_APP_CONTENTSTACK_DELIVERY_TOKEN,
   process.env.VUE_APP_CONTENTSTACK_PUBLISH_ENVIRONMENT,
   process.env.VUE_APP_CONTENTSTACK_REGION
+    ? process.env.VUE_APP_CONTENTSTACK_REGION
+    : ''
 );
 
 export default {
