@@ -1,7 +1,12 @@
 <template>
   <main>
     <BlogBanner v-if="banner" :data="banner.page_components[0].hero_banner" />
-    <div class="blog-container">
+    <div
+      class="blog-container"
+      :data-pageref="data.uid"
+      data-contenttype="blog_post"
+      :data-locale="data.locale"
+    >
       <div v-if="data" class="blog-detail">
         <h2>{{ data.title }}</h2>
         <p>

@@ -3,6 +3,8 @@
     v-if="data"
     :components="data.page_components"
     :page="data.title"
+    :entryUid="data.uid"
+    :locale="data.locale"
   />
 </template>
 

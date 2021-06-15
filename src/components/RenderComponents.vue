@@ -1,5 +1,10 @@
 <template>
-  <main v-if="components">
+  <main
+    v-if="components"
+    :data-pageref="entryUid"
+    data-contenttype="page"
+    :data-locale="locale"
+  >
     <template v-for="(component, index) in components">
       <HeroBanner
         v-if="component.hero_banner && page === 'Home'"
@@ -72,6 +77,6 @@ export default {
     BlogSection,
     SectionWithEmbedObject
   },
-  props: ['components', 'page']
+  props: ['components', 'page', 'entryUid', 'locale']
 };
 </script>

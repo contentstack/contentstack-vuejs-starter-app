@@ -1,7 +1,12 @@
 <template>
   <main v-if="banner">
     <BlogBanner :data="banner.page_components[0].hero_banner" />
-    <div class="blog-container">
+    <div
+      class="blog-container"
+      :data-pageref="banner.uid"
+      data-contenttype="page"
+      :data-locale="banner.locale"
+    >
       <div class="blog-column-left">
         <div v-for="(list, index) in recentBlog" :key="index" class="blog-list">
           <router-link :to="list.url">
