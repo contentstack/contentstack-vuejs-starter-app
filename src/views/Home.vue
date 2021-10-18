@@ -34,6 +34,8 @@ export default {
         ['page_components.from_blog.featured_blogs']
       );
       this.data = response[0];
+      this.$store.dispatch('setPage', response[0]);
+      this.$store.dispatch('setBlogpost', null);
       document.title = this.data.title;
     }
   }

@@ -1,5 +1,8 @@
 <template>
   <main>
+    <ClientOnly>
+      <Devtools />
+    </ClientOnly>
     <BlogBanner v-if="banner" :data="banner.page_components[0].hero_banner" />
     <div
       class="blog-container"
@@ -33,9 +36,12 @@
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
+import Devtools from '../components/Devtools.vue;';
+
 export default {
   components: {
-    BlogBanner
+    BlogBanner,
+    Devtools
   },
   data() {
     return {
@@ -60,6 +66,8 @@ export default {
         );
         this.data = data[0];
         this.banner = banner[0];
+        this.$store.dispatch('setPage', banner[0]);
+        this.$store.dispatch('setBlogpost', data);
         document.title = this.data.title;
       } catch (e) {
         return false;
