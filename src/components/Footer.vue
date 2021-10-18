@@ -63,6 +63,7 @@ export default {
     async getData() {
       let response = await Stack.getEntries('footer');
       this.data = response[0];
+      this.$store.dispatch('setFooter', response[0]);
     }
   }
 };
