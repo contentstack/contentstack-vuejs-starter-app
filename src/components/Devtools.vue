@@ -22,11 +22,6 @@
         <div class="modal-body">
           <pre id="jsonViewer"></pre>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn primary-btn" data-bs-dismiss="modal">
-            Close
-          </button>
-        </div>
       </div>
     </div>
   </div>
@@ -44,17 +39,21 @@ export default {
       };
       page && (response.page = page);
       blogPost && (response.blog_post = blogPost);
-      return response;
+      return JSON.stringify(response);
     }
   },
   mounted() {
     const jsonViewer = document.getElementById('jsonViewer');
-    new JsonViewer({
-      container: jsonViewer,
-      data: JSON.stringify(this.response),
-      theme: 'light',
-      expand: false
-    });
+    try {
+      new JsonViewer({
+        container: jsonViewer,
+        data: this.response,
+        theme: 'light',
+        expand: false
+      });
+    } catch (error) {
+      console.error('error', error);
+    }
   }
 };
 </script>
