@@ -1,7 +1,0 @@
-fileignoreconfig:
-- filename: .env
-  checksum: af41a43dd6bb2edc7dc2647b8c32fc8f63fa91f913ee6661cde4ef82e6287ac5
-- filename: public/index.html
-  checksum: 8ff8d8df06b83cbca9b2917f55ac43add5727937ce1b1df100df9ee2a8071059
-- filename: package-lock.json
-  checksum: 475002f622a7686cb96e9eadd90fedfd3fe14350df42d97e91c7bb4a10ba61c3

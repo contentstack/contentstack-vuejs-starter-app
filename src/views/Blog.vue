@@ -1,8 +1,5 @@
 <template>
   <main v-if="banner">
-    <ClientOnly>
-      <Devtools />
-    </ClientOnly>
     <BlogBanner :data="banner.page_components[0].hero_banner" />
     <div
       class="blog-container"
@@ -55,11 +52,9 @@
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
-import Devtools from '../components/Devtools.vue;';
 export default {
   components: {
-    BlogBanner,
-    Devtools
+    BlogBanner
   },
   data() {
     return {
