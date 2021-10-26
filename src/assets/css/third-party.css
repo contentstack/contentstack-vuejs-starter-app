@@ -404,3 +404,20 @@ html {
 *::after {
   box-sizing: inherit;
 }
+
+#jsonViewer {
+  /* Background, font and color */
+  --background-color: #fff;
+  --color: rgb(0, 43, 54);
+  --font-family: monaco, Consolas, 'Lucida Console', monospace;
+  /* Types colors */
+  --string-color: rgb(203, 75, 22);
+  --number-color: rgb(108, 113, 196);
+  --boolean-color: rgb(42, 161, 152);
+  --null-color: rgb(220, 50, 47);
+  --property-color: rgb(0, 43, 54);
+  /* Collapsed node preview */
+  --preview-color: rgba(0, 0, 0, 0.3);
+  /* Search highlight color */
+  --highlight-color: #6fb3d2;
+}
