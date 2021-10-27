@@ -29,7 +29,6 @@
   </div>
 </template>
 <script>
-// import JsonViewer from 'json-viewer-js';
 import '@alenaksu/json-viewer';
 export default {
   computed: {
@@ -69,19 +68,8 @@ export default {
     }
   },
   mounted: function mounted() {
-    // const jsonViewer = document.getElementById('jsonViewer');
     let jsonData = this.filterObject(this.response);
     this.response = JSON.stringify(jsonData);
-    // try {
-    //   new JsonViewer({
-    //     container: jsonViewer,
-    //     data: jsonData,
-    //     theme: 'light',
-    //     expand: false
-    //   });
-    // } catch (error) {
-    //   console.error('error', error);
-    // }
   }
 };
 </script>
