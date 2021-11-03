@@ -7,7 +7,11 @@
         data-bs-toggle="modal"
         data-bs-target="#staticBackdrop"
       >
-        <i class="fas fa-tools fa-lg"></i>
+        <img
+          src="../assets/Devtools.gif"
+          alt="Dev tools icon"
+          title="Json Preview"
+        />
       </span>
     </div>
     <div class="max-width header-div">
