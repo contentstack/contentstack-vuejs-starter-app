@@ -5,6 +5,9 @@
     data-contenttype="page"
     :data-locale="locale"
   >
+    <ClientOnly>
+      <Devtools />
+    </ClientOnly>
     <template v-for="(component, index) in components">
       <HeroBanner
         v-if="component.hero_banner && page === 'Home'"
@@ -66,6 +69,7 @@ import SectionWithEmbedObject from '../components/SectionWithEmbedObject';
 import SectionWithBuckets from '../components/SectionWithBuckets';
 import AboutSectionBucket from '../components/AboutSectionBucket';
 import BlogSection from '../components/BlogSection';
+import Devtools from '../components/Devtools.vue';
 export default {
   components: {
     HeroBanner,
@@ -75,7 +79,8 @@ export default {
     SectionWithCards,
     TeamSection,
     BlogSection,
-    SectionWithEmbedObject
+    SectionWithEmbedObject,
+    Devtools
   },
   props: ['components', 'page', 'entryUid', 'locale']
 };
