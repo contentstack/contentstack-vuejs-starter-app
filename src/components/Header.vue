@@ -1,6 +1,19 @@
 <template>
   <header v-if="data" class="header">
-    <div class="note-div" v-html="data.notification_bar.announcement_text" />
+    <div class="note-div">
+      <span v-html="data.notification_bar.announcement_text" />
+      <span
+        class="devtools"
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
+        <img
+          src="../assets/Devtools.gif"
+          alt="Dev tools icon"
+          title="Json Preview"
+        />
+      </span>
+    </div>
     <div class="max-width header-div">
       <div class="wrapper-logo">
         <router-link
@@ -59,9 +72,8 @@ export default {
         `navigation_menu.page_reference`
       );
       this.data = response[0];
+      this.$store.dispatch('setHeader', response[0]);
     }
   }
 };
 </script>
-
-<style></style>
