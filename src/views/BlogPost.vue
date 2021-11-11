@@ -33,6 +33,7 @@
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
+
 export default {
   components: {
     BlogBanner
@@ -60,6 +61,8 @@ export default {
         );
         this.data = data[0];
         this.banner = banner[0];
+        this.$store.dispatch('setPage', banner[0]);
+        this.$store.dispatch('setBlogpost', data[0]);
         document.title = this.data.title;
       } catch (e) {
         return false;

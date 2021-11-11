@@ -85,6 +85,9 @@ export default {
       this.banner = data[0];
       this.recentBlog = recentPost;
       this.archivedList = archived;
+
+      this.$store.dispatch('setPage', data[0]);
+      this.$store.dispatch('setBlogpost', list);
       document.title = this.banner.title;
     },
     moment(param) {
