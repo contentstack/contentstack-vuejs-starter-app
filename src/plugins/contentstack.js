@@ -1,70 +1,82 @@
-// Module dependency
-const Contentstack = require('contentstack');
+import * as contentstack from "contentstack";
+import * as Utils from "@contentstack/utils";
 
-const Stack = Contentstack.Stack(
-  process.env.VUE_APP_CONTENTSTACK_API_KEY,
-  process.env.VUE_APP_CONTENTSTACK_DELIVERY_TOKEN,
-  process.env.VUE_APP_CONTENTSTACK_ENVIRONMENT,
-  process.env.VUE_APP_CONTENTSTACK_REGION
-    ? process.env.VUE_APP_CONTENTSTACK_REGION
-    : 'us'
-);
+const Stack = contentstack.Stack({
+  api_key: process.env.VUE_APP_CONTENTSTACK_API_KEY,
+  delivery_token: process.env.VUE_APP_CONTENTSTACK_DELIVERY_TOKEN,
+  environment: process.env.VUE_APP_CONTENTSTACK_ENVIRONMENT,
+  region: process.env.VUE_APP_CONTENTSTACK_REGION ? process.env.VUE_APP_CONTENTSTACK_REGION : "us",
+});
+
+const renderOption = {
+  ["span"]: (node, next) => {
+    return next(node.children);
+  },
+};
 
 export default {
   /**
-   * This function fetches specific entry which matches params url using where clause
    *
-   * @param {*provides content-type uid} contentTypeUid String
-   * @param {*provides url to search specific entry} entryUrl String
-   * @param {*provides reference field path as an array or a string} referencedFieldPath
-   * Array e.g.[`author`, `related_post`] | String e.g. 'related_pages'
+   * fetches all the entries from specific content-type
+   * @param {* content-type uid} contentTypeUid
+   * @param {* reference field name} referenceFieldPath
+   * @param {* Json RTE path} jsonRtePath
    *
-   **/
-
-  getEntryByUrl(contentTypeUid, entryUrl, referencedFieldPath) {
+   */
+   getEntries({ contentTypeUid, referenceFieldPath, jsonRtePath }) {
     return new Promise((resolve, reject) => {
       const query = Stack.ContentType(contentTypeUid).Query();
-      if (referencedFieldPath) {
-        query.includeReference(referencedFieldPath);
-      }
-      query.toJSON();
-      const data = query.where('url', `${entryUrl}`).find();
+      if (referenceFieldPath) query.includeReference(referenceFieldPath);
+      query
+        .includeOwner()
+        .toJSON()
+        .find()
+        .then(
+          (result) => {
+            jsonRtePath &&
+              Utils.jsonToHTML({
+                entry: result,
+                paths: jsonRtePath,
+                renderOption,
+              });
+            resolve(result[0]);
+          },
+          (error) => {
+            reject(error);
+          }
+        );
+    });
+  },
+
+  /**
+   *fetches specific entry from a content-type
+   *
+   * @param {* content-type uid} contentTypeUid
+   * @param {* url for entry to be fetched} entryUrl
+   * @param {* reference field name} referenceFieldPath
+   * @param {* Json RTE path} jsonRtePath
+   * @returns
+   */
+  getEntryByUrl({ contentTypeUid, entryUrl, referenceFieldPath, jsonRtePath }) {
+    return new Promise((resolve, reject) => {
+      const blogQuery = Stack.ContentType(contentTypeUid).Query();
+      if (referenceFieldPath) blogQuery.includeReference(referenceFieldPath);
+      blogQuery.includeOwner().toJSON();
+      const data = blogQuery.where("url", `${entryUrl}`).find();
       data.then(
-        result => {
+        (result) => {
+          jsonRtePath &&
+            Utils.jsonToHTML({
+              entry: result,
+              paths: jsonRtePath,
+              renderOption,
+            });
           resolve(result[0]);
         },
-        error => {
+        (error) => {
           reject(error);
         }
       );
     });
   },
-
-  /**
-   * This function fetches all the entries for a specific content-type
-   *
-   * @param {*provides content-type uid} contentTypeUid String
-   * @param {*provides reference field path as an array or a string} referencedFieldPath
-   * Array e.g.[`author`, `related_post`] | String e.g. 'related_pages'
-   *
-   **/
-
-  getEntries(contentTypeUid, referencedFieldPath) {
-    return new Promise((resolve, reject) => {
-      const query = Stack.ContentType(contentTypeUid).Query();
-      if (referencedFieldPath) query.includeReference(referencedFieldPath);
-      query
-        .toJSON()
-        .find()
-        .then(
-          result => {
-            resolve(result[0]);
-          },
-          error => {
-            console.log(error);
-            reject(error);
-          }
-        );
-    });
-  }
 };

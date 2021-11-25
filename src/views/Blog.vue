@@ -70,11 +70,15 @@ export default {
     async getData() {
       const archived = [];
       const recentPost = [];
-      const data = await Stack.getEntryByUrl('page', `${this.$route.fullPath}`);
-      const list = await Stack.getEntries('blog_post', [
-        `author`,
-        `related_post`
-      ]);
+      const data = await Stack.getEntryByUrl({
+        contentTypeUid: 'page',
+        entryUrl: `${this.$route.fullPath}`
+      });
+      const list = await Stack.getEntries({
+        contentTypeUid: 'blog_post',
+        referenceFieldPath: [`author`, `related_post`],
+        jsonRtePath: ['body']
+      });
       list.forEach(item => {
         if (item.is_archived) {
           archived.push(item);
