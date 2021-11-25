@@ -41,7 +41,7 @@
       </div>
     </div>
     <div class="copyright">
-      <p v-html="data.copyright" />
+      <p v-if="typeof data.copyright === 'string'" v-html="data.copyright" />
     </div>
   </footer>
 </template>
@@ -61,7 +61,10 @@ export default {
   },
   methods: {
     async getData() {
-      let response = await Stack.getEntries('footer');
+      let response = await Stack.getEntries({
+        contentTypeUid: 'footer',
+        jsonRtePath: ['copyright']
+      });
       this.data = response[0];
       this.$store.dispatch('setFooter', response[0]);
     }
