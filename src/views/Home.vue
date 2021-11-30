@@ -15,11 +15,11 @@ import RenderComponent from '../components/RenderComponents';
 export default {
   name: 'Home',
   components: {
-    RenderComponent,
+    RenderComponent
   },
   data() {
     return {
-      data: null,
+      data: null
     };
   },
   created() {
@@ -32,13 +32,13 @@ export default {
         contentTypeUid: 'page',
         entryUrl: `${this.$route.fullPath}`,
         referenceFieldPath: ['page_components.from_blog.featured_blogs'],
-        jsonRtePath: [],
+        jsonRtePath: []
       });
       this.data = response[0];
       this.$store.dispatch('setPage', response[0]);
       this.$store.dispatch('setBlogpost', null);
       document.title = this.data.title;
-    },
-  },
+    }
+  }
 };
 </script>
