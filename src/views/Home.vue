@@ -32,7 +32,7 @@ export default {
         contentTypeUid: 'page',
         entryUrl: `${this.$route.fullPath}`,
         referenceFieldPath: ['page_components.from_blog.featured_blogs'],
-        jsonRtePath: []
+        jsonRtePath: ['page_components.from_blog.featured_blogs.body']
       });
       this.data = response[0];
       this.$store.dispatch('setPage', response[0]);
