@@ -22,7 +22,10 @@
         />
         <div class="featured-content">
           <h3>{{ index.title }}</h3>
-          <p v-html="index.body.slice(0, 255)" />
+          <p
+            v-if="typeof index.body === 'string'"
+            v-html="index.body.slice(0, 255)"
+          />
           <p>
             <router-link class="blogpost-readmore" :to="index.url">
               Read More -->

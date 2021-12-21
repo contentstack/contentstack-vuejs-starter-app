@@ -28,11 +28,12 @@ export default {
 
   methods: {
     async getData() {
-      const response = await Stack.getEntryByUrl(
-        'page',
-        `${this.$route.fullPath}`,
-        ['page_components.from_blog.featured_blogs']
-      );
+      const response = await Stack.getEntryByUrl({
+        contentTypeUid: 'page',
+        entryUrl: `${this.$route.fullPath}`,
+        referenceFieldPath: ['page_components.from_blog.featured_blogs'],
+        jsonRtePath: ['page_components.from_blog.featured_blogs.body']
+      });
       this.data = response[0];
       this.$store.dispatch('setPage', response[0]);
       this.$store.dispatch('setBlogpost', null);
