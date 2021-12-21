@@ -1,7 +1,10 @@
 <template>
   <header v-if="data" class="header">
-    <div class="note-div">
-      <span v-html="data.notification_bar.announcement_text" />
+    <div class="note-div" v-if="data.notification_bar.show_announcement">
+      <span
+        v-if="typeof data.notification_bar.announcement_text === 'string'"
+        v-html="data.notification_bar.announcement_text"
+      />
       <span
         class="devtools"
         data-bs-toggle="modal"
@@ -42,7 +45,10 @@
             :key="navItems.title"
             class="nav-li"
           >
-            <router-link :to="navItems.page_reference[0].url">
+            <router-link
+              :to="navItems.page_reference[0].url"
+              active-class="active"
+            >
               {{ navItems.page_reference[0].title }}
             </router-link>
           </li>
@@ -67,10 +73,11 @@ export default {
   },
   methods: {
     async getData() {
-      let response = await Stack.getEntries(
-        'header',
-        `navigation_menu.page_reference`
-      );
+      let response = await Stack.getEntries({
+        contentTypeUid: 'header',
+        referenceFieldPath: `navigation_menu.page_reference`,
+        jsonRtePath: ['notification_bar.announcement_text']
+      });
       this.data = response[0];
       this.$store.dispatch('setHeader', response[0]);
     }
