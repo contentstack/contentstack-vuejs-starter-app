@@ -53,12 +53,16 @@ export default {
     },
     async getData() {
       try {
-        const banner = await Stack.getEntryByUrl('page', `/blog`);
-        const data = await Stack.getEntryByUrl(
-          'blog_post',
-          `${this.$route.fullPath}`,
-          [`related_post`, `author`]
-        );
+        const banner = await Stack.getEntryByUrl({
+          contentTypeUid: 'page',
+          entryUrl: `/blog`
+        });
+        const data = await Stack.getEntryByUrl({
+          contentTypeUid: 'blog_post',
+          entryUrl: `${this.$route.fullPath}`,
+          referenceFieldPath: [`related_post`, `author`],
+          jsonRtePath: ['body', 'related_post.body']
+        });
         this.data = data[0];
         this.banner = banner[0];
         this.$store.dispatch('setPage', banner[0]);

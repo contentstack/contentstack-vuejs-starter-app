@@ -1,6 +1,6 @@
 {
   "name": "contentstack-vuejs-starter-app",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "A simple starter app build using VueJS and Contentstack",
   "author": "Contentstack",
   "license": "MIT",
@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@alenaksu/json-viewer": "^0.3.4",
-    "contentstack": "^3.12.2",
+    "@contentstack/utils": "^1.1.0",
+    "contentstack": "^3.14.0",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "register-service-worker": "^1.7.1",
