@@ -1,6 +1,6 @@
 [![Contentstack Logo](/public/contentstack.png)](https://www.contentstack.com/)
 
-# Create a marketing website using VueJS
+# Create a marketing website using Vue.js
 
 About Contentstack: Contentstack is a headless CMS with an API-first approach that puts content at the centre. It is designed to simplify the process of publication by separating code from content.
 
