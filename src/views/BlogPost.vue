@@ -33,6 +33,7 @@
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
+import { onEntryChange } from '../plugins/contentstack';
 
 export default {
   components: {
@@ -72,6 +73,13 @@ export default {
         return false;
       }
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
 };
 </script>

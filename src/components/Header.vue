@@ -5,17 +5,6 @@
         v-if="typeof data.notification_bar.announcement_text === 'string'"
         v-html="data.notification_bar.announcement_text"
       />
-      <span
-        class="devtools"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
-        <img
-          src="../assets/Devtools.gif"
-          alt="Dev tools icon"
-          title="Json Preview"
-        />
-      </span>
     </div>
     <div class="max-width header-div">
       <div class="wrapper-logo">
@@ -49,20 +38,28 @@
               :to="navItems.page_reference[0].url"
               active-class="active"
             >
-              {{ navItems.page_reference[0].title }}
+              {{ navItems.label }}
             </router-link>
           </li>
         </ul>
       </nav>
+      <div className="json-preview">
+        <Tooltip content="JSON Preview" direction="top"> </Tooltip>
+      </div>
     </div>
   </header>
 </template>
 
 <script>
 import Stack from '../plugins/contentstack';
+import { onEntryChange } from '../plugins/contentstack';
+import Tooltip from '../components/Tooltip';
 
 export default {
   name: 'Header',
+  components: {
+    Tooltip
+  },
   data() {
     return {
       data: null
@@ -81,6 +78,13 @@ export default {
       this.data = response[0];
       this.$store.dispatch('setHeader', response[0]);
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
 };
 </script>

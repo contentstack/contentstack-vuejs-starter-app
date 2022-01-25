@@ -1,13 +1,30 @@
 import * as contentstack from 'contentstack';
 import * as Utils from '@contentstack/utils';
 
+import ContentstackLivePreview from '@contentstack/live-preview-utils';
+
 const Stack = contentstack.Stack({
   api_key: process.env.VUE_APP_CONTENTSTACK_API_KEY,
   delivery_token: process.env.VUE_APP_CONTENTSTACK_DELIVERY_TOKEN,
   environment: process.env.VUE_APP_CONTENTSTACK_ENVIRONMENT,
   region: process.env.VUE_APP_CONTENTSTACK_REGION
     ? process.env.VUE_APP_CONTENTSTACK_REGION
-    : 'us'
+    : 'us',
+  live_preview: {
+    management_token: process.env.VUE_APP_CONTENTSTACK_MANAGEMENT_TOKEN
+      ? process.env.VUE_APP_CONTENTSTACK_MANAGEMENT_TOKEN
+      : '',
+    enable: true,
+    host: process.env.VUE_APP_CONTENTSTACK_API_HOST
+      ? process.env.VUE_APP_CONTENTSTACK_API_HOST
+      : ''
+  },
+  clientUrlParams: {
+    protocol: 'https',
+    host: process.env.VUE_APP_CONTENTSTACK_APP_HOST
+      ? process.env.VUE_APP_CONTENTSTACK_APP_HOST
+      : ''
+  }
 });
 
 const renderOption = {
@@ -15,6 +32,15 @@ const renderOption = {
     return next(node.children);
   }
 };
+
+/**
+ * initialize live preview
+ */
+ContentstackLivePreview.init(Stack, { debug: true });
+
+Stack.setHost(process.env.VUE_APP_CONTENTSTACK_API_HOST);
+
+export const onEntryChange = ContentstackLivePreview.onEntryChange;
 
 export default {
   /**
