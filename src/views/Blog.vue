@@ -94,6 +94,8 @@ export default {
       this.$store.dispatch('setPage', data[0]);
       this.$store.dispatch('setBlogpost', list);
       document.title = this.banner.title;
+      const element = document.getElementsByClassName('cslp-tooltip');
+      element[0] ? (element[0].outerHTML = null) : '';
     },
     moment(param) {
       return moment(param).format('ddd, MMM D YYYY');

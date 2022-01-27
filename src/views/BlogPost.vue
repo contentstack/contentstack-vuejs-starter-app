@@ -69,6 +69,8 @@ export default {
         this.$store.dispatch('setPage', banner[0]);
         this.$store.dispatch('setBlogpost', data[0]);
         document.title = this.data.title;
+        const element = document.getElementsByClassName('cslp-tooltip');
+        element[0] ? (element[0].outerHTML = null) : '';
       } catch (e) {
         return false;
       }

@@ -43,7 +43,7 @@
           </li>
         </ul>
       </nav>
-      <div className="json-preview">
+      <div class="json-preview">
         <Tooltip content="JSON Preview" direction="top"> </Tooltip>
       </div>
     </div>
