@@ -739,7 +739,7 @@ footer a {
   .header .menu-icon .navicon:before,
   .header .menu-icon .navicon:after {
     background: #333;
-    content: "";
+    content: '';
     display: block;
     height: 100%;
     position: absolute;
@@ -1220,3 +1220,23 @@ footer a {
   background: #eee;
 }
 
+/* JSON preview */
+
+#jsonViewer {
+  /* Background, font and color */
+  --background-color: #ffffff;
+  --color: #5d9ccb;
+
+  /* Types colors */
+  --string-color: #5d9ccb;
+  --number-color: #5d9ccb;
+  --boolean-color: #5d9ccb;
+  --null-color: #5d9ccb;
+  --property-color: #c8501e;
+
+  /* Collapsed node preview */
+  --preview-color: rgb(185, 185, 185);
+
+  /* Search highlight color */
+  --highlight-color: #eee;
+}

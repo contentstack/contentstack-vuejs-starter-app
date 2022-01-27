@@ -38,6 +38,8 @@ export default {
       this.$store.dispatch('setPage', response[0]);
       this.$store.dispatch('setBlogpost', null);
       document.title = this.data.title;
+      const element = document.getElementsByClassName('cslp-tooltip');
+      element[0] ? (element[0].outerHTML = null) : '';
     }
   },
   mounted() {

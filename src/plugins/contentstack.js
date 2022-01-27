@@ -18,12 +18,6 @@ const Stack = contentstack.Stack({
     host: process.env.VUE_APP_CONTENTSTACK_API_HOST
       ? process.env.VUE_APP_CONTENTSTACK_API_HOST
       : ''
-  },
-  clientUrlParams: {
-    protocol: 'https',
-    host: process.env.VUE_APP_CONTENTSTACK_APP_HOST
-      ? process.env.VUE_APP_CONTENTSTACK_APP_HOST
-      : ''
   }
 });
 
@@ -36,7 +30,7 @@ const renderOption = {
 /**
  * initialize live preview
  */
-ContentstackLivePreview.init(Stack, { debug: true });
+ContentstackLivePreview.init(Stack);
 
 Stack.setHost(process.env.VUE_APP_CONTENTSTACK_API_HOST);
 
