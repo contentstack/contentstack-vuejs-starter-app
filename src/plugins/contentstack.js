@@ -30,7 +30,16 @@ const renderOption = {
 /**
  * initialize live preview
  */
-ContentstackLivePreview.init(Stack);
+ContentstackLivePreview.init({
+  enable: true,
+  stackSdk: Stack,
+  clientUrlParams: {
+    host: process.env.VUE_APP_CONTENTSTACK_APP_HOST
+      ? process.env.VUE_APP_CONTENTSTACK_APP_HOST
+      : ''
+  },
+  ssr: false
+});
 
 Stack.setHost(process.env.VUE_APP_CONTENTSTACK_API_HOST);
 
