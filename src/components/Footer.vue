@@ -48,6 +48,7 @@
 
 <script>
 import Stack from '../plugins/contentstack';
+import { onEntryChange } from '../plugins/contentstack';
 
 export default {
   name: 'Footer',
@@ -68,6 +69,13 @@ export default {
       this.data = response[0];
       this.$store.dispatch('setFooter', response[0]);
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
 };
 </script>

@@ -11,6 +11,7 @@
 <script>
 import Stack from '../plugins/contentstack';
 import RenderComponent from '../components/RenderComponents';
+import { onEntryChange } from '../plugins/contentstack';
 
 export default {
   name: 'Home',
@@ -32,13 +33,24 @@ export default {
         contentTypeUid: 'page',
         entryUrl: `${this.$route.fullPath}`,
         referenceFieldPath: ['page_components.from_blog.featured_blogs'],
-        jsonRtePath: ['page_components.from_blog.featured_blogs.body']
+        jsonRtePath: [
+          'page_components.section_with_buckets.buckets.description'
+        ]
       });
       this.data = response[0];
       this.$store.dispatch('setPage', response[0]);
       this.$store.dispatch('setBlogpost', null);
       document.title = this.data.title;
+      const element = document.getElementsByClassName('cslp-tooltip');
+      element[0] ? (element[0].outerHTML = null) : '';
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
 };
 </script>
