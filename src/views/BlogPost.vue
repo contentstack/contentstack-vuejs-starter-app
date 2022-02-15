@@ -33,6 +33,7 @@
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
+import { onEntryChange } from '../plugins/contentstack';
 
 export default {
   components: {
@@ -68,10 +69,19 @@ export default {
         this.$store.dispatch('setPage', banner[0]);
         this.$store.dispatch('setBlogpost', data[0]);
         document.title = this.data.title;
+        const element = document.getElementsByClassName('cslp-tooltip');
+        element[0] ? (element[0].outerHTML = null) : '';
       } catch (e) {
         return false;
       }
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
 };
 </script>
