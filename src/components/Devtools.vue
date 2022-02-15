@@ -8,10 +8,26 @@
     aria-labelledby="staticBackdropLabel"
     aria-hidden="true"
   >
-    <div class="modal-dialog modal-lg">
+    <div
+      class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+    >
       <div class="modal-content">
         <div class="modal-header">
-          <h2 id="staticBackdropLabel" class="modal-title">Json Response</h2>
+          <h2 id="staticBackdropLabel" class="modal-title">JSON Preview</h2>
+          <div
+            class="tooltip-wrapper"
+            v-on:click="copyObject(JSON.stringify(response))"
+          >
+            <div class="tooltip-copy">
+              <img src="/copy.svg" class="copyIcon" alt="copy icon" />
+              <div class="tooltip-top-copy" v-if="this.componentKey > 0">
+                {{ this.messageCopied }}
+              </div>
+              <div class="tooltip-top-copy" v-else>
+                {{ this.messageCopy }}
+              </div>
+            </div>
+          </div>
           <button
             type="button"
             class="btn-close"
@@ -31,12 +47,19 @@
 <script>
 import '@alenaksu/json-viewer';
 export default {
+  data() {
+    return {
+      messageCopy: 'Copy',
+      messageCopied: 'Copied',
+      componentKey: 0
+    };
+  },
   computed: {
     response() {
       const { header, footer, page, blogPost } = this.$store.state;
       const response = {
-        headers: header || null,
-        footer: footer || null
+        headers: header,
+        footer: footer
       };
       page && (response.page = page);
       blogPost && (response.blog_post = blogPost);
@@ -45,6 +68,10 @@ export default {
     }
   },
   methods: {
+    copyObject: function(response) {
+      navigator.clipboard.writeText(response);
+      this.componentKey++;
+    },
     filterObject: function(inputObject) {
       const unWantedProps = [
         'uid',
@@ -70,6 +97,13 @@ export default {
   mounted: function mounted() {
     let jsonData = this.filterObject(this.response);
     this.response = JSON.stringify(jsonData);
+  },
+  updated() {
+    this.componentKey &&
+      setTimeout(() => {
+        this.componentKey = 0;
+      }, 300);
   }
 };
 </script>
+<style></style>

@@ -52,6 +52,8 @@
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
+import { onEntryChange } from '../plugins/contentstack';
+
 export default {
   components: {
     BlogBanner
@@ -89,14 +91,22 @@ export default {
       this.banner = data[0];
       this.recentBlog = recentPost;
       this.archivedList = archived;
-
       this.$store.dispatch('setPage', data[0]);
       this.$store.dispatch('setBlogpost', list);
       document.title = this.banner.title;
+      const element = document.getElementsByClassName('cslp-tooltip');
+      element[0] ? (element[0].outerHTML = null) : '';
     },
     moment(param) {
       return moment(param).format('ddd, MMM D YYYY');
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
 };
 </script>
