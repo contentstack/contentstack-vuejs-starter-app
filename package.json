@@ -22,6 +22,7 @@
     "vue-json-tree-viewer": "^1.0.2",
     "vue-meta": "^2.4.0",
     "vue-router": "^4.0.12",
+    "vue-skeletor": "^1.0.6",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
@@ -68,6 +69,7 @@
     "not dead"
   ],
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "endOfLine": "auto"
   }
 }

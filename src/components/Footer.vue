@@ -66,6 +66,20 @@ export default {
         contentTypeUid: 'footer',
         jsonRtePath: ['copyright']
       });
+      let responsePages = await Stack.getEntries({
+        contentTypeUid: 'page'
+      });
+      let navFooterList = response[0].navigation.link;
+      if (responsePages.length !== response.length) {
+        responsePages.forEach(entry => {
+          const fFound = response[0].navigation.link.find(
+            link => link.title === entry.title
+          );
+          if (!fFound) {
+            navFooterList.push({ title: entry.title, href: entry.url });
+          }
+        });
+      }
       this.data = response[0];
       this.$store.dispatch('setFooter', response[0]);
     }

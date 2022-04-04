@@ -7,7 +7,12 @@
         <p>
           {{ data.description }}
         </p>
-        <router-link aria-current="page" class="btn secondary-btn" to="/">
+        <router-link
+          v-if="data.call_to_action.title"
+          aria-current="page"
+          class="btn secondary-btn"
+          to="/"
+        >
           {{ data.call_to_action.title }}
         </router-link>
       </div>
@@ -18,7 +23,12 @@
         <p>
           {{ data.description }}
         </p>
-        <router-link aria-current="page" class="btn secondary-btn" to="/">
+        <router-link
+          v-if="data.call_to_action.title"
+          aria-current="page"
+          class="btn secondary-btn"
+          to="/"
+        >
           {{ data.call_to_action.title }}
         </router-link>
       </div>

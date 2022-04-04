@@ -9,7 +9,10 @@
         <img :src="index.icon.url" :alt="index.icon.title" />
         <h3>{{ index.title_h3 }}</h3>
         <p v-html="index.description" />
-        <router-link :to="index.call_to_action.href">
+        <router-link
+          v-if="index.call_to_action.href"
+          :to="index.call_to_action.href"
+        >
           {{ index.call_to_action.title }}--&gt;
         </router-link>
       </div>
