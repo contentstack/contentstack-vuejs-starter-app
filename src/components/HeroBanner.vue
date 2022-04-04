@@ -13,12 +13,21 @@
         {{ data.banner_description }}
       </p>
       <template v-if="title === 'home-content'">
-        <router-link aria-current="page" class="btn tertiary-btn" to="/">
+        <router-link
+          v-if="data.call_to_action.title && data.call_to_action.href"
+          aria-current="page"
+          class="btn tertiary-btn"
+          to="/"
+        >
           Read more
         </router-link>
       </template>
     </div>
-    <img :src="data.banner_image.url" :alt="data.banner_image.title" />
+    <img
+      v-if="data.banner_image"
+      :src="data.banner_image.url"
+      :alt="data.banner_image.title"
+    />
   </div>
 </template>
 
