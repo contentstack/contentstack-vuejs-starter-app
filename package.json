@@ -15,7 +15,7 @@
     "@contentstack/live-preview-utils": "^1.0.1",
     "@contentstack/utils": "^1.1.1",
     "contentstack": "^3.15.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "register-service-worker": "^1.7.1",
     "vue": "^3.2.27",
     "vue-json-pretty": "^1.8.2",
