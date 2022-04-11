@@ -75,6 +75,24 @@ export default {
         referenceFieldPath: `navigation_menu.page_reference`,
         jsonRtePath: ['notification_bar.announcement_text']
       });
+      let responsePages = await Stack.getEntries({
+        contentTypeUid: 'page'
+      });
+      let navHeaderList = response[0].navigation_menu;
+      if (responsePages.length !== response.length) {
+        responsePages.forEach(entry => {
+          const hFound = response[0].navigation_menu.find(
+            navLink => navLink.label === entry.title
+          );
+
+          if (!hFound) {
+            navHeaderList.push({
+              label: entry.title,
+              page_reference: [{ title: entry.title, url: entry.url }]
+            });
+          }
+        });
+      }
       this.data = response[0];
       this.$store.dispatch('setHeader', response[0]);
     }

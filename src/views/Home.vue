@@ -6,17 +6,24 @@
     :entryUid="data.uid"
     :locale="data.locale"
   />
+  <NotFound v-else-if="data !== null" />
+  <Skeletor v-else height="100vh" />
 </template>
 
 <script>
 import Stack from '../plugins/contentstack';
 import RenderComponent from '../components/RenderComponents';
 import { onEntryChange } from '../plugins/contentstack';
+import NotFound from './404.vue';
+import 'vue-skeletor/dist/vue-skeletor.css';
+import { Skeletor } from 'vue-skeletor';
 
 export default {
   name: 'Home',
   components: {
-    RenderComponent
+    RenderComponent,
+    NotFound,
+    Skeletor
   },
   data() {
     return {
