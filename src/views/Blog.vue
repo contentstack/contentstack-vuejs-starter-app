@@ -46,6 +46,7 @@
       </div>
     </div>
   </main>
+  <Skeletor v-else height="100vh" />
 </template>
 
 <script>
@@ -53,10 +54,13 @@ import moment from 'moment';
 import Stack from '../plugins/contentstack';
 import BlogBanner from '../components/BlogBanner';
 import { onEntryChange } from '../plugins/contentstack';
+import 'vue-skeletor/dist/vue-skeletor.css';
+import { Skeletor } from 'vue-skeletor';
 
 export default {
   components: {
-    BlogBanner
+    BlogBanner,
+    Skeletor
   },
   data() {
     return {
