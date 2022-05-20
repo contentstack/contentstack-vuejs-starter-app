@@ -34,8 +34,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data']
-};
+<script lang="ts">
+
+interface Buckets{
+  title_h3: string;
+  description: string;
+}
+
+interface Data{
+  title_h2: string;
+  bucket: Buckets;
+}
+
+import { defineComponent, PropType } from 'vue'
+
+export default defineComponent({
+  props: {
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  }
+});
 </script>

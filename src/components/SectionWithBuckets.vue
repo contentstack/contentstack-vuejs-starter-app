@@ -20,8 +20,29 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data']
-};
+<script lang="ts">
+
+interface Buckets {
+  icon: Image;
+}
+
+interface Data {
+  title_h2: string;
+  description: string;
+  buckets: Buckets;
+  call_to_action: Action;
+}
+
+import Image from '../typescript/action';
+import Action from '../typescript/action';
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  props: {
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  }
+});
 </script>

@@ -12,8 +12,27 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data']
-};
+<script lang="ts">
+
+interface Card {
+  title_h3: string;
+  description: string;
+  call_to_action: Action;
+}
+
+interface Data {
+  cards: Card;
+}
+
+import Action from '../typescript/action';
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+    props: {
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  }
+});
 </script>
