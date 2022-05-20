@@ -23,8 +23,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data']
-};
+<script lang="ts">
+
+interface Data {
+  html_code_alignment: string;
+  description: string;
+}
+
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  props: {
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  }
+});
 </script>

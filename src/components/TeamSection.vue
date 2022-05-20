@@ -18,8 +18,29 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data']
-};
+<script lang="ts">
+
+interface Employee {
+  name: string;
+  image: Image;
+  designation: string;
+}
+
+interface Data {
+  title_h2: string;
+  description: string;
+  employees: Employee
+}
+
+import Image from '../typescript/action';
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  props: {
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  }
+});
 </script>

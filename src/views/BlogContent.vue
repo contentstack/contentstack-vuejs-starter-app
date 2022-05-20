@@ -49,22 +49,37 @@
   <Skeletor v-else height="100vh" />
 </template>
 
-<script>
+<script lang="ts">
+
+interface List {
+    author: [];
+    body: string;
+    date: string;
+    featured_image:object;
+    is_archived: boolean;
+    related_post:[];
+    locale: string;
+    seo: object;
+    title: string;
+    url: string;
+}
+
+import { defineComponent } from 'vue';
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
-import BlogBanner from '../components/BlogBanner';
+import BlogBanner from '../components/BlogBanner.vue';
 import { onEntryChange } from '../plugins/contentstack';
 import 'vue-skeletor/dist/vue-skeletor.css';
 import { Skeletor } from 'vue-skeletor';
 
-export default {
+export default defineComponent({
   components: {
     BlogBanner,
     Skeletor
   },
   data() {
     return {
-      banner: null,
+      banner:  null,
       archivedList: null,
       recentBlog: null
     };
@@ -74,13 +89,13 @@ export default {
   },
   methods: {
     async getData() {
-      const archived = [];
-      const recentPost = [];
+      const archived = [] as any;
+      const recentPost = [] as any;
       const data = await Stack.getEntryByUrl({
         contentTypeUid: 'page',
         entryUrl: `${this.$route.fullPath}`
       });
-      const list = await Stack.getEntries({
+      const list: [List] = await Stack.getEntries({
         contentTypeUid: 'blog_post',
         referenceFieldPath: [`author`, `related_post`],
         jsonRtePath: ['body']
@@ -97,11 +112,10 @@ export default {
       this.archivedList = archived;
       this.$store.dispatch('setPage', data[0]);
       this.$store.dispatch('setBlogpost', list);
-      document.title = this.banner.title;
-      const element = document.getElementsByClassName('cslp-tooltip');
+      const element: any = document.getElementsByClassName('cslp-tooltip');
       element[0] ? (element[0].outerHTML = null) : '';
     },
-    moment(param) {
+    moment(param: string) {
       return moment(param).format('ddd, MMM D YYYY');
     }
   },
@@ -112,5 +126,5 @@ export default {
       }
     });
   }
-};
+});
 </script>

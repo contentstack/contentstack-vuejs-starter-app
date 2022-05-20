@@ -31,8 +31,33 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data', 'title']
-};
+<script lang="ts">
+
+interface Data {
+  banner_description: string;
+  call_to_action: Action;
+  banner_image: Image
+}
+
+interface Title {
+  title: string;
+}
+
+import Action from '../typescript/action';
+import Image from '../typescript/action';
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+
+  props:{
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    },
+    title:{
+      required: true,
+      type: Object as PropType<Title>
+    }
+  }
+});
 </script>

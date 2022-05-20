@@ -44,9 +44,37 @@
     </div>
   </div>
 </template>
-<script>
+
+<script lang="ts">
+
+interface Header {
+  local: string;
+  logo: string;
+  navigation_menu: [];
+  notification_bar: string;
+  title: string;
+}
+
+interface Footer {
+  local: string;
+  logo: string;
+  copyright: string;
+  navigation: [];
+  social: string;
+  title: string;
+}
+
+interface Response {
+    page?: string;
+    blog_post?: string;
+    headers: Header;
+    footer: Footer;
+}
+
 import '@alenaksu/json-viewer';
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   data() {
     return {
       messageCopy: 'Copy',
@@ -57,22 +85,23 @@ export default {
   computed: {
     response() {
       const { header, footer, page, blogPost } = this.$store.state;
-      const response = {
+      const response: Response = {
         headers: header,
         footer: footer
       };
+
       page && (response.page = page);
       blogPost && (response.blog_post = blogPost);
-      const jsonData = this.filterObject(response);
+      const jsonData: any = this.filterObject(response);
       return jsonData;
     }
   },
   methods: {
-    copyObject: function(response) {
+    copyObject: function(response: string) {
       navigator.clipboard.writeText(response);
       this.componentKey++;
     },
-    filterObject: function(inputObject) {
+    filterObject: function(inputObject: any) {
       const unWantedProps = [
         'uid',
         '_version',
@@ -104,6 +133,6 @@ export default {
         this.componentKey = 0;
       }, 300);
   }
-};
+});
 </script>
 <style></style>
