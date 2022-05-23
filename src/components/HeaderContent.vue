@@ -52,19 +52,16 @@
 
 <script lang="ts">
 
-interface PageResponse {
+interface navHeaderList {
   title: string;
   url: string;
-}
-
-interface Links {
-  label: string;
 }
 
 import { defineComponent } from 'vue';
 import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
 import Tooltip from '../components/ToolTip.vue';
+import Links from '../typescript/data'
 
 export default defineComponent({
   name: 'HeaderContent',
@@ -86,7 +83,7 @@ export default defineComponent({
         referenceFieldPath: `navigation_menu.page_reference`,
         jsonRtePath: ['notification_bar.announcement_text']
       });
-      let responsePages: [PageResponse] = await Stack.getEntries({
+      let responsePages: [navHeaderList] = await Stack.getEntries({
         contentTypeUid: 'page'
       });
       let navHeaderList = response[0].navigation_menu;

@@ -52,12 +52,12 @@
 <script lang="ts">
 
 interface List {
-    author: [];
+    author: Array<any>;
     body: string;
     date: string;
     featured_image:object;
     is_archived: boolean;
-    related_post:[];
+    related_post: Array<any>;
     locale: string;
     seo: object;
     title: string;

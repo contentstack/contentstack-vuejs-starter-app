@@ -48,18 +48,15 @@
 
 <script lang="ts">
 
-interface PageResponse {
+interface navFooterList {
   title: string;
   url: string;
-}
-
-interface Links {
-  title: string;
 }
 
 import { defineComponent } from 'vue';
 import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
+import Links from '../typescript/data'
 
 export default defineComponent({
   name: 'FooterContent',
@@ -77,7 +74,7 @@ export default defineComponent({
         contentTypeUid: 'footer',
         jsonRtePath: ['copyright']
       });
-      let responsePages: [PageResponse] = await Stack.getEntries({
+      let responsePages: [navFooterList] = await Stack.getEntries({
         contentTypeUid: 'page'
       });
 

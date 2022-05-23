@@ -6,7 +6,7 @@
     >
       <div class="contact-page-content">
         <h1>{{ data.title }}</h1>
-        <p v-html="data.description" />
+        <p v-html="data.description.children[0].children[0].text" />
       </div>
       <div class="contact-page-form" v-html="data.html_code" />
     </div>
@@ -17,7 +17,7 @@
       <div class="maps-details" v-html="data.html_code" />
       <div class="contact-maps-content">
         <h2>{{ data.title }}</h2>
-        <p v-html="data.description" />
+        <p v-html="data.description.children[0].children[0].text" />
       </div>
     </div>
   </div>
@@ -25,12 +25,8 @@
 
 <script lang="ts">
 
-interface Data {
-  html_code_alignment: string;
-  description: string;
-}
-
 import { defineComponent, PropType } from 'vue';
+import Data from '../typescript/data';
 
 export default defineComponent({
   props: {

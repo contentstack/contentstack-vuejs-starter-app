@@ -36,17 +36,8 @@
 
 <script lang="ts">
 
-interface Buckets{
-  title_h3: string;
-  description: string;
-}
-
-interface Data{
-  title_h2: string;
-  bucket: Buckets;
-}
-
 import { defineComponent, PropType } from 'vue'
+import Data  from '../typescript/data'
 
 export default defineComponent({
   props: {

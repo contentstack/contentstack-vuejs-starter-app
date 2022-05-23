@@ -39,23 +39,7 @@
 
 <script lang="ts">
 
-interface Article {
-  href: string;
-  title: string;
-}
-
-interface Blogs {
-  featured_image: Image;
-  url: string;
-}
-
-interface Data {
-  title_h2: string;
-  view_articles: Article;
-  featured_blogs: Blogs;
-}
-
-import Image from '../typescript/action';
+import Data from '../typescript/data';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({

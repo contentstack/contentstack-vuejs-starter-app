@@ -18,13 +18,9 @@
 
 <script lang="ts">
 
-interface Data{
-  banner_title: string;
-  banner_description: string;
-}
-
 import { defineComponent, PropType } from 'vue';
 import Devtools from './DevTools.vue';
+import Data from '../typescript/data'
 
 export default defineComponent({
   props:{

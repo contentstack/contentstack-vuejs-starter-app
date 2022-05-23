@@ -113,6 +113,7 @@ export default defineComponent({
     SectionWithEmbedObject,
     Devtools
   },
+
   props: {
     components: {
       required: true,
