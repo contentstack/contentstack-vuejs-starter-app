@@ -14,17 +14,7 @@
 
 <script lang="ts">
 
-interface Card {
-  title_h3: string;
-  description: string;
-  call_to_action: Action;
-}
-
-interface Data {
-  cards: Card;
-}
-
-import Action from '../typescript/action';
+import Data from '../typescript/data';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({

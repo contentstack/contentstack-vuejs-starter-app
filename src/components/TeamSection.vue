@@ -20,19 +20,7 @@
 
 <script lang="ts">
 
-interface Employee {
-  name: string;
-  image: Image;
-  designation: string;
-}
-
-interface Data {
-  title_h2: string;
-  description: string;
-  employees: Employee
-}
-
-import Image from '../typescript/action';
+import Data from '../typescript/data';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({

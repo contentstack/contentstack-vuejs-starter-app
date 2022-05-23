@@ -33,18 +33,11 @@
 
 <script lang="ts">
 
-interface Data {
-  banner_description: string;
-  call_to_action: Action;
-  banner_image: Image
-}
-
 interface Title {
   title: string;
 }
 
-import Action from '../typescript/action';
-import Image from '../typescript/action';
+import Data from '../typescript/data';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
