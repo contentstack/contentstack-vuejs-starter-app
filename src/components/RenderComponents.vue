@@ -41,7 +41,7 @@
         :key="index"
         :data="component.section_with_buckets"
       />
-      <SectionWithBuckets
+      <AboutSectionBucket
         v-if="component.section_with_buckets && page !== 'Home'"
         :key="index"
         :data="component.section_with_buckets"
@@ -65,26 +65,72 @@
   </main>
 </template>
 
-<script>
-import HeroBanner from '../components/HeroBanner';
-import Section from '../components/Section';
-import SectionWithCards from '../components/SectionWithCards';
-import TeamSection from '../components/TeamSection';
-import SectionWithEmbedObject from '../components/SectionWithEmbedObject';
-import SectionWithBuckets from '../components/SectionWithBuckets';
-import BlogSection from '../components/BlogSection';
-import Devtools from '../components/Devtools.vue';
-export default {
+<script lang="ts">
+
+interface Component {
+    HeroBanner: object;
+    Section: object
+    SectionWithBuckets: object;
+    SectionWithCards: object;
+    AboutSectionBucket: object;
+    TeamSection: object;
+    BlogSection: object;
+    SectionWithEmbedObject: object
+    Devtools: object
+}
+
+interface Page {
+  page: string;
+}
+
+interface EntryUid {
+  page: string;
+}
+
+interface Locale {
+  page: string;
+}
+
+import { defineComponent, PropType } from 'vue';
+import HeroBanner from '../components/HeroBanner.vue';
+import Section from '../components/SectionContent.vue';
+import SectionWithCards from '../components/SectionWithCards.vue';
+import AboutSectionBucket from "../components/AboutSectionBucket.vue";
+import TeamSection from '../components/TeamSection.vue';
+import SectionWithEmbedObject from '../components/SectionWithEmbedObject.vue';
+import SectionWithBuckets from '../components/SectionWithBuckets.vue';
+import BlogSection from '../components/BlogSection.vue';
+import Devtools from '../components/DevTools.vue';
+export default defineComponent({
   components: {
     HeroBanner,
     Section,
     SectionWithBuckets,
     SectionWithCards,
+    AboutSectionBucket,
     TeamSection,
     BlogSection,
     SectionWithEmbedObject,
     Devtools
   },
-  props: ['components', 'page', 'entryUid', 'locale']
-};
+
+  props: {
+    components: {
+      required: true,
+      type: Object as PropType<Component>
+    },
+    page: {
+      required: true,
+      type: Object as PropType<Page>
+    },
+    entryUid: {
+      required: true,
+      type: Object as PropType<EntryUid>
+    },
+    locale: {
+      required: true,
+      type: Object as PropType<Locale>
+    }
+  }
+});
 </script>
