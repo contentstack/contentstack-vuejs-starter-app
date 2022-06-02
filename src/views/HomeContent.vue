@@ -10,16 +10,19 @@
   <Skeletor v-else height="100vh" />
 </template>
 
-<script>
+<script lang="ts">
+
+import { defineComponent } from 'vue';
 import Stack from '../plugins/contentstack';
-import RenderComponent from '../components/RenderComponents';
+import RenderComponent from '../components/RenderComponents.vue';
 import { onEntryChange } from '../plugins/contentstack';
-import NotFound from './404.vue';
+import NotFound from './NotFound.vue';
 import 'vue-skeletor/dist/vue-skeletor.css';
 import { Skeletor } from 'vue-skeletor';
+import Data from "../typescript/pages";
 
-export default {
-  name: 'Home',
+export default defineComponent({
+  name: 'HomeContent',
   components: {
     RenderComponent,
     NotFound,
@@ -27,7 +30,7 @@ export default {
   },
   data() {
     return {
-      data: null
+      data: {} as Data
     };
   },
   created() {
@@ -49,7 +52,7 @@ export default {
       this.$store.dispatch('setBlogpost', null);
       document.title = this.data.title;
       const element = document.getElementsByClassName('cslp-tooltip');
-      element[0] ? (element[0].outerHTML = null) : '';
+      element[0] ? (element[0].outerHTML) : '';
     }
   },
   mounted() {
@@ -59,5 +62,5 @@ export default {
       }
     });
   }
-};
+});
 </script>
