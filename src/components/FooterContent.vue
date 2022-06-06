@@ -46,12 +46,20 @@
   </footer>
 </template>
 
-<script>
+<script lang="ts">
+
+interface navFooterList {
+  title: string;
+  url: string;
+}
+
+import { defineComponent } from 'vue';
 import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
+import Links from '../typescript/data'
 
-export default {
-  name: 'Footer',
+export default defineComponent({
+  name: 'FooterContent',
   data() {
     return {
       data: null
@@ -66,14 +74,15 @@ export default {
         contentTypeUid: 'footer',
         jsonRtePath: ['copyright']
       });
-      let responsePages = await Stack.getEntries({
+      let responsePages: [navFooterList] = await Stack.getEntries({
         contentTypeUid: 'page'
       });
+
       let navFooterList = response[0].navigation.link;
       if (responsePages.length !== response.length) {
         responsePages.forEach(entry => {
           const fFound = response[0].navigation.link.find(
-            link => link.title === entry.title
+            (link: Links) => link.title === entry.title
           );
           if (!fFound) {
             navFooterList.push({ title: entry.title, href: entry.url });
@@ -91,5 +100,5 @@ export default {
       }
     });
   }
-};
+});
 </script>
