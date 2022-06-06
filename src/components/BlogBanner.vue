@@ -16,10 +16,19 @@
   </div>
 </template>
 
-<script>
-import Devtools from '../components/Devtools.vue';
-export default {
-  props: ['data'],
+<script lang="ts">
+
+import { defineComponent, PropType } from 'vue';
+import Devtools from './DevTools.vue';
+import Data from '../typescript/data'
+
+export default defineComponent({
+  props:{
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  },
   components: { Devtools }
-};
+});
 </script>

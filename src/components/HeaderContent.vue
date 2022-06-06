@@ -50,13 +50,21 @@
   </header>
 </template>
 
-<script>
+<script lang="ts">
+
+interface navHeaderList {
+  title: string;
+  url: string;
+}
+
+import { defineComponent } from 'vue';
 import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
-import Tooltip from '../components/Tooltip';
+import Tooltip from '../components/ToolTip.vue';
+import Links from '../typescript/data'
 
-export default {
-  name: 'Header',
+export default defineComponent({
+  name: 'HeaderContent',
   components: {
     Tooltip
   },
@@ -75,14 +83,14 @@ export default {
         referenceFieldPath: `navigation_menu.page_reference`,
         jsonRtePath: ['notification_bar.announcement_text']
       });
-      let responsePages = await Stack.getEntries({
+      let responsePages: [navHeaderList] = await Stack.getEntries({
         contentTypeUid: 'page'
       });
       let navHeaderList = response[0].navigation_menu;
       if (responsePages.length !== response.length) {
         responsePages.forEach(entry => {
           const hFound = response[0].navigation_menu.find(
-            navLink => navLink.label === entry.title
+            (navLink: Links) => navLink.label === entry.title
           );
 
           if (!hFound) {
@@ -104,5 +112,5 @@ export default {
       }
     });
   }
-};
+});
 </script>
