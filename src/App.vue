@@ -1,20 +1,20 @@
 <template>
   <div>
-    <Header />
+    <HeaderComponent />
     <router-view :key="$route.path" />
-    <Footer />
+    <FooterComponent />
   </div>
 </template>
 
 <script>
-import Header from '@/components/HeaderContent.vue';
-import Footer from '@/components/FooterContent.vue';
+import HeaderComponent from '@/components/HeaderContent.vue';
+import FooterComponent from '@/components/FooterContent.vue';
 
 export default {
   name: 'App',
   components: {
-    Header,
-    Footer
-  }
+    HeaderComponent,
+    FooterComponent,
+  },
 };
 </script>

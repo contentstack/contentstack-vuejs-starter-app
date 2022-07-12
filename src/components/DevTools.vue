@@ -124,7 +124,7 @@ export default defineComponent({
     }
   },
   mounted: function mounted() {
-    let jsonData = this.filterObject(this.response);
+    const jsonData = this.filterObject(this.response);
     this.response = JSON.stringify(jsonData);
   },
   updated() {

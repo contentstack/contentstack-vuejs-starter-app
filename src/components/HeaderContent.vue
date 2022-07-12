@@ -51,7 +51,6 @@
 </template>
 
 <script lang="ts">
-
 interface navHeaderList {
   title: string;
   url: string;
@@ -61,16 +60,16 @@ import { defineComponent } from 'vue';
 import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
 import Tooltip from '../components/ToolTip.vue';
-import Links from '../typescript/data'
+import Links from '../typescript/data';
 
 export default defineComponent({
   name: 'HeaderContent',
   components: {
-    Tooltip
+    Tooltip,
   },
   data() {
     return {
-      data: null
+      data: null,
     };
   },
   created() {
@@ -78,17 +77,17 @@ export default defineComponent({
   },
   methods: {
     async getData() {
-      let response = await Stack.getEntries({
+      const response = await Stack.getEntries({
         contentTypeUid: 'header',
         referenceFieldPath: `navigation_menu.page_reference`,
-        jsonRtePath: ['notification_bar.announcement_text']
+        jsonRtePath: ['notification_bar.announcement_text'],
       });
-      let responsePages: [navHeaderList] = await Stack.getEntries({
-        contentTypeUid: 'page'
+      const responsePages: [navHeaderList] = await Stack.getEntries({
+        contentTypeUid: 'page',
       });
-      let navHeaderList = response[0].navigation_menu;
+      const navHeaderList = response[0].navigation_menu;
       if (responsePages.length !== response.length) {
-        responsePages.forEach(entry => {
+        responsePages.forEach((entry) => {
           const hFound = response[0].navigation_menu.find(
             (navLink: Links) => navLink.label === entry.title
           );
@@ -96,14 +95,14 @@ export default defineComponent({
           if (!hFound) {
             navHeaderList.push({
               label: entry.title,
-              page_reference: [{ title: entry.title, url: entry.url }]
+              page_reference: [{ title: entry.title, url: entry.url }],
             });
           }
         });
       }
       this.data = response[0];
       this.$store.dispatch('setHeader', response[0]);
-    }
+    },
   },
   mounted() {
     onEntryChange(() => {
@@ -111,6 +110,6 @@ export default defineComponent({
         this.getData();
       }
     });
-  }
+  },
 });
 </script>
