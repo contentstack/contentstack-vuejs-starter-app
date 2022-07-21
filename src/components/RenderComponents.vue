@@ -21,7 +21,7 @@
         title="about-content"
         :data="component.hero_banner"
       />
-      <Section
+      <SectionComponent
         v-if="component.section"
         :key="index"
         :data="component.section"
@@ -66,17 +66,16 @@
 </template>
 
 <script lang="ts">
-
 interface Component {
-    HeroBanner: object;
-    Section: object
-    SectionWithBuckets: object;
-    SectionWithCards: object;
-    AboutSectionBucket: object;
-    TeamSection: object;
-    BlogSection: object;
-    SectionWithEmbedObject: object
-    Devtools: object
+  HeroBanner: object;
+  Section: object;
+  SectionWithBuckets: object;
+  SectionWithCards: object;
+  AboutSectionBucket: object;
+  TeamSection: object;
+  BlogSection: object;
+  SectionWithEmbedObject: object;
+  Devtools: object;
 }
 
 interface Page {
@@ -93,9 +92,9 @@ interface Locale {
 
 import { defineComponent, PropType } from 'vue';
 import HeroBanner from '../components/HeroBanner.vue';
-import Section from '../components/SectionContent.vue';
+import SectionComponent from '../components/SectionContent.vue';
 import SectionWithCards from '../components/SectionWithCards.vue';
-import AboutSectionBucket from "../components/AboutSectionBucket.vue";
+import AboutSectionBucket from '../components/AboutSectionBucket.vue';
 import TeamSection from '../components/TeamSection.vue';
 import SectionWithEmbedObject from '../components/SectionWithEmbedObject.vue';
 import SectionWithBuckets from '../components/SectionWithBuckets.vue';
@@ -104,33 +103,33 @@ import Devtools from '../components/DevTools.vue';
 export default defineComponent({
   components: {
     HeroBanner,
-    Section,
+    SectionComponent,
     SectionWithBuckets,
     SectionWithCards,
     AboutSectionBucket,
     TeamSection,
     BlogSection,
     SectionWithEmbedObject,
-    Devtools
+    Devtools,
   },
 
   props: {
     components: {
       required: true,
-      type: Object as PropType<Component>
+      type: Object as PropType<Component>,
     },
     page: {
       required: true,
-      type: Object as PropType<Page>
+      type: Object as PropType<Page>,
     },
     entryUid: {
       required: true,
-      type: Object as PropType<EntryUid>
+      type: Object as PropType<EntryUid>,
     },
     locale: {
       required: true,
-      type: Object as PropType<Locale>
-    }
-  }
+      type: Object as PropType<Locale>,
+    },
+  },
 });
 </script>
