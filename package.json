@@ -23,7 +23,7 @@
     "vue-json-pretty": "^2.1.1",
     "vue-json-tree-viewer": "^1.0.2",
     "vue-meta": "^2.4.0",
-    "vue-router": "^4.1.2",
+    "vue-router": "^4.1.5",
     "vue-skeletor": "^1.0.6",
     "vuex": "^4.0.2"
   },
