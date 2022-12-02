@@ -29,12 +29,15 @@
   </main>
 </template>
 
-<script>
+<script lang="ts">
+
+import { defineComponent } from 'vue';
 import moment from 'moment';
 import Stack from '../plugins/contentstack';
-import BlogBanner from '../components/BlogBanner';
+import BlogBanner from '../components/BlogBanner.vue';
+import { onEntryChange } from '../plugins/contentstack';
 
-export default {
+export default defineComponent({
   components: {
     BlogBanner
   },
@@ -48,7 +51,7 @@ export default {
     this.getData();
   },
   methods: {
-    moment(param) {
+    moment(param: string) {
       return moment(param).format('ddd, MMM D YYYY');
     },
     async getData() {
@@ -67,11 +70,19 @@ export default {
         this.banner = banner[0];
         this.$store.dispatch('setPage', banner[0]);
         this.$store.dispatch('setBlogpost', data[0]);
-        document.title = this.data.title;
+        const element: any = document.getElementsByClassName('cslp-tooltip');
+        element[0] ? (element[0].outerHTML = null) : '';
       } catch (e) {
         return false;
       }
     }
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
   }
-};
+});
 </script>
