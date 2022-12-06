@@ -46,14 +46,22 @@
   </footer>
 </template>
 
-<script>
-import Stack from '../plugins/contentstack';
+<script lang="ts">
+interface navFooterList {
+  title: string;
+  url: string;
+}
 
-export default {
-  name: 'Footer',
+import { defineComponent } from 'vue';
+import Stack from '../plugins/contentstack';
+import { onEntryChange } from '../plugins/contentstack';
+import Links from '../typescript/data';
+
+export default defineComponent({
+  name: 'FooterContent',
   data() {
     return {
-      data: null
+      data: null,
     };
   },
   created() {
@@ -61,13 +69,35 @@ export default {
   },
   methods: {
     async getData() {
-      let response = await Stack.getEntries({
+      const response = await Stack.getEntries({
         contentTypeUid: 'footer',
-        jsonRtePath: ['copyright']
+        jsonRtePath: ['copyright'],
       });
+      const responsePages: [navFooterList] = await Stack.getEntries({
+        contentTypeUid: 'page',
+      });
+
+      const navFooterList = response[0].navigation.link;
+      if (responsePages.length !== response.length) {
+        responsePages.forEach((entry) => {
+          const fFound = response[0].navigation.link.find(
+            (link: Links) => link.title === entry.title
+          );
+          if (!fFound) {
+            navFooterList.push({ title: entry.title, href: entry.url });
+          }
+        });
+      }
       this.data = response[0];
       this.$store.dispatch('setFooter', response[0]);
-    }
-  }
-};
+    },
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
+  },
+});
 </script>

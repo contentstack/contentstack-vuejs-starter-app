@@ -5,17 +5,6 @@
         v-if="typeof data.notification_bar.announcement_text === 'string'"
         v-html="data.notification_bar.announcement_text"
       />
-      <span
-        class="devtools"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
-        <img
-          src="../assets/Devtools.gif"
-          alt="Dev tools icon"
-          title="Json Preview"
-        />
-      </span>
     </div>
     <div class="max-width header-div">
       <div class="wrapper-logo">
@@ -49,23 +38,38 @@
               :to="navItems.page_reference[0].url"
               active-class="active"
             >
-              {{ navItems.page_reference[0].title }}
+              {{ navItems.label }}
             </router-link>
           </li>
         </ul>
       </nav>
+      <div class="json-preview">
+        <Tooltip content="JSON Preview" direction="top"> </Tooltip>
+      </div>
     </div>
   </header>
 </template>
 
-<script>
-import Stack from '../plugins/contentstack';
+<script lang="ts">
+interface navHeaderList {
+  title: string;
+  url: string;
+}
 
-export default {
-  name: 'Header',
+import { defineComponent } from 'vue';
+import Stack from '../plugins/contentstack';
+import { onEntryChange } from '../plugins/contentstack';
+import Tooltip from '../components/ToolTip.vue';
+import Links from '../typescript/data';
+
+export default defineComponent({
+  name: 'HeaderContent',
+  components: {
+    Tooltip,
+  },
   data() {
     return {
-      data: null
+      data: null,
     };
   },
   created() {
@@ -73,14 +77,39 @@ export default {
   },
   methods: {
     async getData() {
-      let response = await Stack.getEntries({
+      const response = await Stack.getEntries({
         contentTypeUid: 'header',
         referenceFieldPath: `navigation_menu.page_reference`,
-        jsonRtePath: ['notification_bar.announcement_text']
+        jsonRtePath: ['notification_bar.announcement_text'],
       });
+      const responsePages: [navHeaderList] = await Stack.getEntries({
+        contentTypeUid: 'page',
+      });
+      const navHeaderList = response[0].navigation_menu;
+      if (responsePages.length !== response.length) {
+        responsePages.forEach((entry) => {
+          const hFound = response[0].navigation_menu.find(
+            (navLink: Links) => navLink.label === entry.title
+          );
+
+          if (!hFound) {
+            navHeaderList.push({
+              label: entry.title,
+              page_reference: [{ title: entry.title, url: entry.url }],
+            });
+          }
+        });
+      }
       this.data = response[0];
       this.$store.dispatch('setHeader', response[0]);
-    }
-  }
-};
+    },
+  },
+  mounted() {
+    onEntryChange(() => {
+      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        this.getData();
+      }
+    });
+  },
+});
 </script>

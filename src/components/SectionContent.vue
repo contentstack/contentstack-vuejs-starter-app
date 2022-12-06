@@ -7,7 +7,12 @@
         <p>
           {{ data.description }}
         </p>
-        <router-link aria-current="page" class="btn secondary-btn" to="/">
+        <router-link
+          v-if="data.call_to_action.title"
+          aria-current="page"
+          class="btn secondary-btn"
+          to="/"
+        >
           {{ data.call_to_action.title }}
         </router-link>
       </div>
@@ -18,7 +23,12 @@
         <p>
           {{ data.description }}
         </p>
-        <router-link aria-current="page" class="btn secondary-btn" to="/">
+        <router-link
+          v-if="data.call_to_action.title"
+          aria-current="page"
+          class="btn secondary-btn"
+          to="/"
+        >
           {{ data.call_to_action.title }}
         </router-link>
       </div>
@@ -27,8 +37,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ['data']
-};
+<script lang="ts">
+
+import Data from '../typescript/data';
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  props: {
+    data:{
+      required: true,
+      type: Object as PropType<Data>
+    }
+  }
+});
 </script>

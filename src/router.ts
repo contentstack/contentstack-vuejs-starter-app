@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from './views/Home.vue';
-import About from './views/About.vue';
-import Contact from './views/Contact.vue';
-import Blog from './views/Blog.vue';
+import Home from './views/HomeContent.vue';
+import Blog from './views/BlogContent.vue';
 import BlogPost from './views/BlogPost.vue';
-import NotFound from './views/404.vue';
+import NotFound from './views/NotFound.vue';
 
 const routes = [
   {
@@ -12,12 +10,8 @@ const routes = [
     component: Home
   },
   {
-    path: '/about-us',
-    component: About
-  },
-  {
-    path: '/contact-us',
-    component: Contact
+    path: '/:page',
+    component: Home
   },
   {
     path: '/blog',
