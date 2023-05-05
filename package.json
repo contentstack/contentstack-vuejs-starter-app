@@ -1,12 +1,12 @@
 {
   "name": "contentstack-vuejs-starter-app",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A simple starter app build using VueJS and Contentstack",
   "author": "Contentstack",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --https true --port 3000",
+    "serve": "vue-cli-service serve --https true",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
