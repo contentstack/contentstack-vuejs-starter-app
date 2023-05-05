@@ -7,6 +7,9 @@ const Stack = contentstack.Stack({
   api_key: process.env.VUE_APP_CONTENTSTACK_API_KEY,
   delivery_token: process.env.VUE_APP_CONTENTSTACK_DELIVERY_TOKEN,
   environment: process.env.VUE_APP_CONTENTSTACK_ENVIRONMENT,
+  branch: process.env.VUE_APP_CONTENTSTACK_BRANCH
+    ? process.env.VUE_APP_CONTENTSTACK_BRANCH
+    : 'main',
   region: process.env.VUE_APP_CONTENTSTACK_REGION
     ? process.env.VUE_APP_CONTENTSTACK_REGION
     : 'us',
@@ -17,14 +20,14 @@ const Stack = contentstack.Stack({
     enable: true,
     host: process.env.VUE_APP_CONTENTSTACK_API_HOST
       ? process.env.VUE_APP_CONTENTSTACK_API_HOST
-      : ''
-  }
+      : '',
+  },
 });
 
 const renderOption = {
   ['span']: (node, next) => {
     return next(node.children);
-  }
+  },
 };
 
 /**
@@ -36,9 +39,9 @@ ContentstackLivePreview.init({
   clientUrlParams: {
     host: process.env.VUE_APP_CONTENTSTACK_APP_HOST
       ? process.env.VUE_APP_CONTENTSTACK_APP_HOST
-      : ''
+      : '',
   },
-  ssr: false
+  ssr: false,
 });
 
 Stack.setHost(process.env.VUE_APP_CONTENTSTACK_API_HOST);
@@ -63,16 +66,16 @@ export default {
         .toJSON()
         .find()
         .then(
-          result => {
+          (result) => {
             jsonRtePath &&
               Utils.jsonToHTML({
                 entry: result,
                 paths: jsonRtePath,
-                renderOption
+                renderOption,
               });
             resolve(result[0]);
           },
-          error => {
+          (error) => {
             reject(error);
           }
         );
@@ -95,19 +98,19 @@ export default {
       blogQuery.includeOwner().toJSON();
       const data = blogQuery.where('url', `${entryUrl}`).find();
       data.then(
-        result => {
+        (result) => {
           jsonRtePath &&
             Utils.jsonToHTML({
               entry: result,
               paths: jsonRtePath,
-              renderOption
+              renderOption,
             });
           resolve(result[0]);
         },
-        error => {
+        (error) => {
           reject(error);
         }
       );
     });
-  }
+  },
 };
