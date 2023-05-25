@@ -1203,6 +1203,10 @@ footer a {
   }
 }
 
+#cslp-tooltip {
+  display: none !important;
+}
+
 /* scroll bar */
 ::-webkit-scrollbar {
   width: 5px;
