@@ -28,15 +28,17 @@
       </div>
       <div class="col-quarter social-link">
         <div class="social-nav">
-          <router-link
-            v-for="socialLinks in data.social.social_share"
-            :key="socialLinks"
-            :to="socialLinks.link.href"
-            :title="socialLinks.link.title"
-            class="footer-social-links"
-          >
-            <img :src="socialLinks.icon.url" :alt="socialLinks.link.title" />
-          </router-link>
+          <div class="social-nav">
+            <a
+              v-for="socialLinks in data.social.social_share"
+              :key="socialLinks"
+              :href="socialLinks.link.href"
+              :title="socialLinks.link.title"
+              class="footer-social-links"
+            >
+              <img :src="socialLinks.icon.url" :alt="socialLinks.link.title" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
