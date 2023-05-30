@@ -37,7 +37,7 @@ interface Title {
   title: string;
 }
 
-import Data from '../typescript/data';
+import {HeroBanner} from '../typescript/components';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
@@ -45,7 +45,7 @@ export default defineComponent({
   props:{
     data:{
       required: true,
-      type: Object as PropType<Data>
+      type: Object as PropType<HeroBanner>
     },
     title:{
       required: true,
