@@ -74,7 +74,7 @@ interface Locale {
 
 import { defineComponent, PropType } from 'vue';
 import HeroBanner from '../components/HeroBanner.vue';
-import BlogBanner from "..//components/BlogBanner.vue";
+import BlogBanner from "../components/BlogBanner.vue";
 import SectionComponent from '../components/SectionContent.vue';
 import SectionWithCards from '../components/SectionWithCards.vue';
 import AboutSectionBucket from '../components/AboutSectionBucket.vue';
