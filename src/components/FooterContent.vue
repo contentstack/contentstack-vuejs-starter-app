@@ -61,8 +61,12 @@ export default defineComponent({
       data: {},
     };
   },
-  created() {
-    this.getData().catch((err) => console.error(err));
+  async created() {
+    try {
+      await this.getData();
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     async getData() {
@@ -85,9 +89,13 @@ export default defineComponent({
     },
   },
   mounted() {
-    onEntryChange(() => {
+    onEntryChange(async () => {
       if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
-        this.getData().catch((err) => console.error(err));
+        try {
+          await this.getData();
+        } catch (error) {
+          console.error(error);
+        }
       }
     });
   },
