@@ -39,14 +39,14 @@
 
 <script lang="ts">
 
-import Data from '../typescript/data';
+import {Section} from '../typescript/components';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props: {
     data:{
       required: true,
-      type: Object as PropType<Data>
+      type: Object as PropType<Section>
     }
   }
 });

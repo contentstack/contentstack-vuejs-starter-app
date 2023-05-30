@@ -20,13 +20,13 @@
 
 import { defineComponent, PropType } from 'vue';
 import Devtools from './DevTools.vue';
-import Data from '../typescript/data'
+import {HeroBanner} from '../typescript/components'
 
 export default defineComponent({
   props:{
     data:{
       required: true,
-      type: Object as PropType<Data>
+      type: Object as PropType<HeroBanner>
     }
   },
   components: { Devtools }

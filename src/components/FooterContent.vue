@@ -1,9 +1,10 @@
 <template>
-  <footer v-if="data">
+  <footer v-if="!!data">
     <div class="max-width footer-div">
       <div class="col-quarter">
         <router-link aria-current="page" class="logo-tag" to="/">
           <img
+            v-if="data.logo"
             :src="data.logo.url"
             :alt="data.logo.title"
             :title="data.logo.title"
@@ -13,7 +14,7 @@
       </div>
       <div class="col-half">
         <nav>
-          <ul class="nav-ul">
+          <ul class="nav-ul" v-if="data.navigation">
             <li
               v-for="index in data.navigation.link"
               :key="index"
@@ -28,7 +29,7 @@
       </div>
       <div class="col-quarter social-link">
         <div class="social-nav">
-          <div class="social-nav">
+          <div class="social-nav" v-if="data.social">
             <a
               v-for="socialLinks in data.social.social_share"
               :key="socialLinks"
@@ -49,55 +50,44 @@
 </template>
 
 <script lang="ts">
-interface navFooterList {
-  title: string;
-  url: string;
-}
-
 import { defineComponent } from 'vue';
-import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
-import Links from '../typescript/data';
+import { getAllEntries, getFooter } from '../helper';
 
 export default defineComponent({
   name: 'FooterContent',
   data() {
     return {
-      data: null,
+      data: {},
     };
   },
   created() {
-    this.getData();
+    this.getData().catch((err) => console.error(err));
   },
   methods: {
     async getData() {
-      const response = await Stack.getEntries({
-        contentTypeUid: 'footer',
-        jsonRtePath: ['copyright'],
-      });
-      const responsePages: [navFooterList] = await Stack.getEntries({
-        contentTypeUid: 'page',
-      });
-
-      const navFooterList = response[0].navigation.link;
-      if (responsePages.length !== response.length) {
+      const response = await getFooter();
+      const responsePages = await getAllEntries();
+      const navFooterList = response.navigation.link;
+      if (responsePages.length !== response.navigation.link.length) {
         responsePages.forEach((entry) => {
-          const fFound = response[0].navigation.link.find(
-            (link: Links) => link.title === entry.title
+          const fFound = response.navigation.link.find(
+            (link) => link.title === entry.title
           );
           if (!fFound) {
             navFooterList.push({ title: entry.title, href: entry.url });
           }
         });
       }
-      this.data = response[0];
-      this.$store.dispatch('setFooter', response[0]);
+      response.navigation.link = navFooterList;
+      this.data = response;
+      this.$store.dispatch('setFooter', response);
     },
   },
   mounted() {
     onEntryChange(() => {
       if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
-        this.getData();
+        this.getData().catch((err) => console.error(err));
       }
     });
   },
