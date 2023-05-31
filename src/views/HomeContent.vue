@@ -1,4 +1,5 @@
 <template>
+  <NotFound v-if="error" />
   <RenderComponent
     v-if="data"
     :components="data.page_components"
@@ -6,61 +7,64 @@
     :entryUid="data.uid"
     :locale="data.locale"
   />
-  <NotFound v-else-if="data !== null" />
-  <Skeletor v-else height="100vh" />
+  <Skeletor height="100vh" />
 </template>
 
 <script lang="ts">
-
 import { defineComponent } from 'vue';
-import Stack from '../plugins/contentstack';
+import { getPage } from '../helper';
 import RenderComponent from '../components/RenderComponents.vue';
 import { onEntryChange } from '../plugins/contentstack';
 import NotFound from './NotFound.vue';
 import 'vue-skeletor/dist/vue-skeletor.css';
 import { Skeletor } from 'vue-skeletor';
-import Data from "../typescript/pages";
+import { Page } from '@/typescript/pages';
 
 export default defineComponent({
   name: 'HomeContent',
   components: {
     RenderComponent,
     NotFound,
-    Skeletor
+    Skeletor,
   },
   data() {
     return {
-      data: {} as Data
+      data: {} as Page,
+      error: false as boolean,
     };
   },
-  created() {
-    this.getData();
+  async created() {
+    try {
+      await this.getData();
+    } catch (error) {
+      this.error = true;
+      console.error(error);
+    }
   },
 
   methods: {
     async getData() {
-      const response = await Stack.getEntryByUrl({
-        contentTypeUid: 'page',
-        entryUrl: `${this.$route.fullPath}`,
-        referenceFieldPath: ['page_components.from_blog.featured_blogs'],
-        jsonRtePath: [
-          'page_components.section_with_buckets.buckets.description'
-        ]
-      });
-      this.data = response[0];
-      this.$store.dispatch('setPage', response[0]);
+      const response = await getPage(`${this.$route.fullPath}`);
+      this.data = response;
+      this.$store.dispatch('setPage', response);
       this.$store.dispatch('setBlogpost', null);
       document.title = this.data.title;
       const element = document.getElementsByClassName('cslp-tooltip');
-      element[0] ? (element[0].outerHTML) : '';
-    }
+      element[0] ? element[0].outerHTML : '';
+    },
   },
   mounted() {
-    onEntryChange(() => {
-      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
-        this.getData();
+    onEntryChange(async () => {
+      const { VUE_APP_CONTENTSTACK_LIVE_PREVIEW } = process.env;
+      if (VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+        try {
+          await this.getData();
+        } catch (error) {
+          this.error = true;
+          console.error(error);
+        }
       }
     });
-  }
+  },
 });
 </script>
