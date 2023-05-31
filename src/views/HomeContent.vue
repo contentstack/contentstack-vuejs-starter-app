@@ -1,5 +1,4 @@
 <template>
-
   <NotFound v-if="error" />
   <RenderComponent
     v-if="data"
@@ -56,7 +55,8 @@ export default defineComponent({
   },
   mounted() {
     onEntryChange(async () => {
-      if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
+      const { VUE_APP_CONTENTSTACK_LIVE_PREVIEW } = process.env;
+      if (VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
         try {
           await this.getData();
         } catch (error) {
