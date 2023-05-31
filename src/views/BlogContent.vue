@@ -1,6 +1,12 @@
 <template>
   <main v-if="banner">
-    <BlogBanner :data="banner.page_components[0].hero_banner" />
+    <RenderComponent
+      v-if="banner"
+      :components="banner.page_components"
+      :page="banner.title"
+      :entryUid="banner.uid"
+      :locale="banner.locale"
+    />
     <div
       class="blog-container"
       :data-pageref="banner.uid"
@@ -50,81 +56,69 @@
 </template>
 
 <script lang="ts">
-
-interface List {
-    author: Array<any>;
-    body: string;
-    date: string;
-    featured_image:object;
-    is_archived: boolean;
-    related_post: Array<any>;
-    locale: string;
-    seo: object;
-    title: string;
-    url: string;
-}
-
 import { defineComponent } from 'vue';
 import moment from 'moment';
-import Stack from '../plugins/contentstack';
-import BlogBanner from '../components/BlogBanner.vue';
+import RenderComponent from '../components/RenderComponents.vue';
 import { onEntryChange } from '../plugins/contentstack';
 import 'vue-skeletor/dist/vue-skeletor.css';
 import { Skeletor } from 'vue-skeletor';
+import { getBlogList, getPage } from '@/helper';
+import { BlogPost, Page } from '@/typescript/pages';
 
 export default defineComponent({
   components: {
-    BlogBanner,
-    Skeletor
+    RenderComponent,
+    Skeletor,
   },
   data() {
     return {
-      banner:  null,
-      archivedList: null,
-      recentBlog: null
+      banner: null as Page | null,
+      archivedList: null as BlogPost[] | null,
+      recentBlog: null as BlogPost[] | null,
     };
   },
-  created() {
-    this.getData();
+  async created() {
+    try {
+      await this.getData();
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     async getData() {
-      const archived = [] as any;
-      const recentPost = [] as any;
-      const data = await Stack.getEntryByUrl({
-        contentTypeUid: 'page',
-        entryUrl: `${this.$route.fullPath}`
-      });
-      const list: [List] = await Stack.getEntries({
-        contentTypeUid: 'blog_post',
-        referenceFieldPath: [`author`, `related_post`],
-        jsonRtePath: ['body']
-      });
-      list.forEach(item => {
+      const archived = [] as BlogPost[];
+      const recentPost = [] as BlogPost[];
+      const data = await getPage(`${this.$route.fullPath}`);
+      const list = await getBlogList();
+      list.forEach((item) => {
         if (item.is_archived) {
           archived.push(item);
         } else {
           recentPost.push(item);
         }
       });
-      this.banner = data[0];
+      this.banner = data;
       this.recentBlog = recentPost;
       this.archivedList = archived;
-      this.$store.dispatch('setPage', data[0]);
+      this.$store.dispatch('setPage', data);
       this.$store.dispatch('setBlogpost', list);
       const element: any = document.getElementsByClassName('cslp-tooltip');
       element[0] ? (element[0].outerHTML = null) : '';
     },
     moment(param: string) {
       return moment(param).format('ddd, MMM D YYYY');
-    }
+    },
   },
   mounted() {
-    onEntryChange(() => {
+    onEntryChange(async () => {
       if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
-        this.getData();
+        try {
+          await this.getData();
+        } catch (error) {
+          console.error(error);
+        }
       }
     });
-  }
+  },
 });
 </script>

@@ -35,16 +35,15 @@
 </template>
 
 <script lang="ts">
-
-import { defineComponent, PropType } from 'vue'
-import Data  from '../typescript/data'
+import { defineComponent, PropType } from 'vue';
+import { SectionWithBuckets } from '../typescript/components';
 
 export default defineComponent({
   props: {
-    data:{
+    data: {
       required: true,
-      type: Object as PropType<Data>
-    }
-  }
+      type: Object as PropType<SectionWithBuckets>,
+    },
+  },
 });
 </script>
