@@ -10,7 +10,7 @@
     </ClientOnly>
     <template v-for="(component, index) in components">
       <HeroBanner
-        v-if="component.hero_banner && page === 'Home'"
+        v-if="component.hero_banner && page !== 'Blog'"
         :key="index"
         title="home-content"
         :data="component.hero_banner"
