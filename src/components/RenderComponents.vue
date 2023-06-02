@@ -12,7 +12,6 @@
       <HeroBanner
         v-if="component.hero_banner && page !== 'Blog'"
         :key="index"
-        title="home-content"
         :data="component.hero_banner"
       />
       <BlogBanner
