@@ -1,5 +1,5 @@
 <template>
-  <header v-if="data" class="header">
+  <header v-if="!!data" class="header">
     <div class="note-div" v-if="data.notification_bar.show_announcement">
       <span
         v-if="typeof data.notification_bar.announcement_text === 'string'"
@@ -51,16 +51,11 @@
 </template>
 
 <script lang="ts">
-interface navHeaderList {
-  title: string;
-  url: string;
-}
-
 import { defineComponent } from 'vue';
-import Stack from '../plugins/contentstack';
 import { onEntryChange } from '../plugins/contentstack';
 import Tooltip from '../components/ToolTip.vue';
-import Links from '../typescript/data';
+import { getAllEntries, getHeader } from '@/helper';
+import { HeaderRes } from "@/typescript/response";
 
 export default defineComponent({
   name: 'HeaderContent',
@@ -69,27 +64,26 @@ export default defineComponent({
   },
   data() {
     return {
-      data: null,
+      data: null as HeaderRes | null,
     };
   },
-  created() {
-    this.getData();
+  async created() {
+        try {
+          this.data = await this.getData();
+          this.$store.dispatch('setHeader', this.data);
+        } catch (error) {
+          console.error(error);
+        }
   },
   methods: {
     async getData() {
-      const response = await Stack.getEntries({
-        contentTypeUid: 'header',
-        referenceFieldPath: `navigation_menu.page_reference`,
-        jsonRtePath: ['notification_bar.announcement_text'],
-      });
-      const responsePages: [navHeaderList] = await Stack.getEntries({
-        contentTypeUid: 'page',
-      });
-      const navHeaderList = response[0].navigation_menu;
-      if (responsePages.length !== response.length) {
+      const response = await getHeader();
+      const responsePages = await getAllEntries();
+      const navHeaderList = response.navigation_menu;
+      if (responsePages.length !== response.navigation_menu.length) {
         responsePages.forEach((entry) => {
-          const hFound = response[0].navigation_menu.find(
-            (navLink: Links) => navLink.label === entry.title
+          const hFound = response.navigation_menu.find(
+            (navLink) => navLink.page_reference[0].title === entry.title
           );
 
           if (!hFound) {
@@ -100,14 +94,15 @@ export default defineComponent({
           }
         });
       }
-      this.data = response[0];
-      this.$store.dispatch('setHeader', response[0]);
+      response.navigation_menu = navHeaderList;
+      return response;
     },
   },
   mounted() {
-    onEntryChange(() => {
+    onEntryChange(async () => {
       if (process.env.VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true') {
-        this.getData();
+        this.data = await this.getData();
+        this.$store.dispatch('setHeader', this.data);
       }
     });
   },
