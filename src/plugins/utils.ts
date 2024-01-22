@@ -5,8 +5,8 @@ const {
   VUE_APP_CONTENTSTACK_ENVIRONMENT,
   VUE_APP_CONTENTSTACK_BRANCH,
   VUE_APP_CONTENTSTACK_REGION,
-  VUE_APP_CONTENTSTACK_MANAGEMENT_TOKEN,
-  VUE_APP_CONTENTSTACK_API_HOST,
+  VUE_APP_CONTENTSTACK_PREVIEW_TOKEN,
+  VUE_APP_CONTENTSTACK_PREVIEW_HOST,
   VUE_APP_CONTENTSTACK_APP_HOST,
   VUE_APP_CONTENTSTACK_LIVE_PREVIEW,
 } = process.env;
@@ -23,13 +23,13 @@ export const isBasicConfigValid = () => {
 export const isLpConfigValid = () => {
   return (
     !!VUE_APP_CONTENTSTACK_LIVE_PREVIEW &&
-    !!VUE_APP_CONTENTSTACK_MANAGEMENT_TOKEN &&
-    !!VUE_APP_CONTENTSTACK_API_HOST &&
+    !!VUE_APP_CONTENTSTACK_PREVIEW_TOKEN &&
+    !!VUE_APP_CONTENTSTACK_PREVIEW_HOST &&
     !!VUE_APP_CONTENTSTACK_APP_HOST
   );
 };
 // set region
-const setRegion = (): Region => {
+const setRegion = () => {
   let region = 'US' as keyof typeof Region;
   if (!!VUE_APP_CONTENTSTACK_REGION && VUE_APP_CONTENTSTACK_REGION !== 'us') {
     region = VUE_APP_CONTENTSTACK_REGION.toLocaleUpperCase().replace(
@@ -46,9 +46,9 @@ const setLivePreviewConfig = (): LivePreview => {
       'Your LP config is set to true. Please make you have set all required LP config in .env'
     );
   return {
-    management_token: VUE_APP_CONTENTSTACK_MANAGEMENT_TOKEN as string,
+    preview_token: VUE_APP_CONTENTSTACK_PREVIEW_TOKEN as string,
     enable: VUE_APP_CONTENTSTACK_LIVE_PREVIEW === 'true',
-    host: VUE_APP_CONTENTSTACK_API_HOST as string,
+    host: VUE_APP_CONTENTSTACK_PREVIEW_HOST as string,
   } as LivePreview;
 };
 // contentstack sdk initialization
