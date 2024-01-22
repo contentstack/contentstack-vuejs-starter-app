@@ -12,7 +12,7 @@
     <div v-if="data" class="home-featured-blogs">
       <div
         v-for="index in data.featured_blogs"
-        :key="index"
+        :key="index.title"
         class="featured-blog"
       >
         <img
