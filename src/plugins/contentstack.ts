@@ -22,9 +22,9 @@ type GetEntryByUrl = {
 
 export const Stack = initializeContentStackSdk();
 let customHostBaseUrl = process.env.VUE_APP_CONTENTSTACK_API_HOST as string;
-customHostBaseUrl = customHostUrl(customHostBaseUrl);
+customHostBaseUrl = customHostBaseUrl ? customHostUrl(customHostBaseUrl) : '';
 
-if (isValidCustomHostUrl(customHostBaseUrl)) {
+if (customHostBaseUrl && isValidCustomHostUrl(customHostBaseUrl)) {
   Stack.setHost(customHostBaseUrl);
 }
 
@@ -41,11 +41,6 @@ ContentstackLivePreview.init({
   enable: true,
   //@ts-ignore
   stackSdk: Stack,
-  clientUrlParams: {
-    host: process.env.VUE_APP_CONTENTSTACK_APP_HOST
-      ? process.env.VUE_APP_CONTENTSTACK_APP_HOST
-      : '',
-  },
   ssr: false,
 })?.catch((err) => console.error(err));
 
