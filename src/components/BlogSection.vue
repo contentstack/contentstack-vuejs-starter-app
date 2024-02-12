@@ -12,7 +12,7 @@
     <div v-if="data" class="home-featured-blogs">
       <div
         v-for="index in data.featured_blogs"
-        :key="index"
+        :key="index.title"
         class="featured-blog"
       >
         <img
@@ -39,14 +39,14 @@
 
 <script lang="ts">
 
-import Data from '../typescript/data';
+import {FromBlog} from '../typescript/components';
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
   props:{
     data:{
       required: true,
-      type: Object as PropType<Data>
+      type: Object as PropType<FromBlog>
     }
   }
 });

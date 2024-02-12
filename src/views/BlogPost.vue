@@ -1,6 +1,12 @@
 <template>
   <main>
-    <BlogBanner v-if="banner" :data="banner.page_components[0].hero_banner" />
+    <RenderComponent
+      v-if="banner"
+      :components="banner.page_components"
+      :page="banner.title"
+      :entryUid="banner.uid"
+      :locale="banner.locale"
+    />
     <div
       class="blog-container"
       :data-pageref="data?.uid"
@@ -30,21 +36,21 @@
 </template>
 
 <script lang="ts">
-
 import { defineComponent } from 'vue';
 import moment from 'moment';
-import Stack from '../plugins/contentstack';
-import BlogBanner from '../components/BlogBanner.vue';
+import RenderComponent from '../components/RenderComponents.vue';
 import { onEntryChange } from '../plugins/contentstack';
+import { getPage, getBlogPost } from '@/helper';
+import { BlogPost, Page } from '@/typescript/pages';
 
 export default defineComponent({
   components: {
-    BlogBanner
+    RenderComponent,
   },
   data() {
     return {
-      data: null,
-      banner: null
+      data: null as BlogPost | null,
+      banner: null as Page | null,
     };
   },
   created() {
@@ -56,26 +62,18 @@ export default defineComponent({
     },
     async getData() {
       try {
-        const banner = await Stack.getEntryByUrl({
-          contentTypeUid: 'page',
-          entryUrl: `/blog`
-        });
-        const data = await Stack.getEntryByUrl({
-          contentTypeUid: 'blog_post',
-          entryUrl: `${this.$route.fullPath}`,
-          referenceFieldPath: [`related_post`, `author`],
-          jsonRtePath: ['body', 'related_post.body']
-        });
-        this.data = data[0];
-        this.banner = banner[0];
-        this.$store.dispatch('setPage', banner[0]);
-        this.$store.dispatch('setBlogpost', data[0]);
+        const banner = await getPage('/blog');
+        const data = await getBlogPost(`${this.$route.fullPath}`);
+        this.data = data;
+        this.banner = banner;
+        this.$store.dispatch('setPage', banner);
+        this.$store.dispatch('setBlogpost', data);
         const element: any = document.getElementsByClassName('cslp-tooltip');
         element[0] ? (element[0].outerHTML = null) : '';
       } catch (e) {
         return false;
       }
-    }
+    },
   },
   mounted() {
     onEntryChange(() => {
@@ -83,6 +81,6 @@ export default defineComponent({
         this.getData();
       }
     });
-  }
+  },
 });
 </script>

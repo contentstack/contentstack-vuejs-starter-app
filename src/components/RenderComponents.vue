@@ -10,18 +10,16 @@
     </ClientOnly>
     <template v-for="(component, index) in components">
       <HeroBanner
-        v-if="component.hero_banner && page === 'Home'"
+        v-if="component.hero_banner && page !== 'Blog'"
         :key="index"
-        title="home-content"
         :data="component.hero_banner"
       />
-      <HeroBanner
-        v-if="component.hero_banner && page !== 'Home'"
+      <BlogBanner
+        v-if="component.hero_banner && page === 'Blog'"
         :key="index"
-        title="about-content"
         :data="component.hero_banner"
       />
-      <Section
+      <SectionComponent
         v-if="component.section"
         :key="index"
         :data="component.section"
@@ -52,12 +50,7 @@
         :data="component.our_team"
       />
       <SectionWithEmbedObject
-        v-if="component.section_with_html_code && page === 'Contact Us'"
-        :key="index"
-        :data="component.section_with_html_code"
-      />
-      <SectionWithEmbedObject
-        v-if="component.section_with_html_code && page !== 'Contact Us'"
+        v-if="component.section_with_html_code"
         :key="index"
         :data="component.section_with_html_code"
       />
@@ -66,19 +59,6 @@
 </template>
 
 <script lang="ts">
-
-interface Component {
-    HeroBanner: object;
-    Section: object
-    SectionWithBuckets: object;
-    SectionWithCards: object;
-    AboutSectionBucket: object;
-    TeamSection: object;
-    BlogSection: object;
-    SectionWithEmbedObject: object
-    Devtools: object
-}
-
 interface Page {
   page: string;
 }
@@ -93,44 +73,47 @@ interface Locale {
 
 import { defineComponent, PropType } from 'vue';
 import HeroBanner from '../components/HeroBanner.vue';
-import Section from '../components/SectionContent.vue';
+import BlogBanner from "../components/BlogBanner.vue";
+import SectionComponent from '../components/SectionContent.vue';
 import SectionWithCards from '../components/SectionWithCards.vue';
-import AboutSectionBucket from "../components/AboutSectionBucket.vue";
+import AboutSectionBucket from '../components/AboutSectionBucket.vue';
 import TeamSection from '../components/TeamSection.vue';
 import SectionWithEmbedObject from '../components/SectionWithEmbedObject.vue';
 import SectionWithBuckets from '../components/SectionWithBuckets.vue';
 import BlogSection from '../components/BlogSection.vue';
 import Devtools from '../components/DevTools.vue';
+import { ComponentsProps } from '../typescript/pages';
 export default defineComponent({
   components: {
     HeroBanner,
-    Section,
+    BlogBanner,
+    SectionComponent,
     SectionWithBuckets,
     SectionWithCards,
     AboutSectionBucket,
     TeamSection,
     BlogSection,
     SectionWithEmbedObject,
-    Devtools
+    Devtools,
   },
 
   props: {
     components: {
       required: true,
-      type: Object as PropType<Component>
+      type: Object as PropType<ComponentsProps>,
     },
     page: {
       required: true,
-      type: Object as PropType<Page>
+      type: Object as PropType<Page>,
     },
     entryUid: {
       required: true,
-      type: Object as PropType<EntryUid>
+      type: Object as PropType<EntryUid>,
     },
     locale: {
       required: true,
-      type: Object as PropType<Locale>
-    }
-  }
+      type: Object as PropType<Locale>,
+    },
+  },
 });
 </script>
